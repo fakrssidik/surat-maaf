@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Surat Permintaan Maaf — Untukmu, Sayang</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --rose-deep: #8B1A2B;
+      --rose-mid: #C0384D;
+      --rose-soft: #E8899A;
+      --rose-blush: #F7D6DC;
+      --rose-pale: #FDF0F2;
+      --gold: #C9A96E;
+      --cream: #FFF8F0;
+      --ink: #2A1A1E;
+      --ink-soft: #5C3A42;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--rose-pale);
+      font-family: 'Cormorant Garamond', serif;
+      color: var(--ink);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Falling Petals ── */
+    .petal-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .petal {
+      position: absolute;
+      top: -60px;
+      width: 18px;
+      height: 22px;
+      border-radius: 80% 0 80% 0;
+      opacity: 0;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      0%   { transform: translateY(0) rotate(0deg) scale(1);   opacity: 0; }
+      5%   { opacity: .75; }
+      90%  { opacity: .5; }
+      100% { transform: translateY(110vh) rotate(720deg) scale(.6); opacity: 0; }
+    }
+
+    /* ── Page wrapper ── */
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 60px 24px 80px;
+    }
+
+    /* ── Floating Hearts ── */
+    .hearts-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .heart-float {
+      position: absolute;
+      font-size: 1.2rem;
+      opacity: 0;
+      animation: floatUp linear infinite;
+    }
+
+    @keyframes floatUp {
+      0%   { transform: translateY(0) scale(1);   opacity: 0; }
+      10%  { opacity: .35; }
+      90%  { opacity: .2; }
+      100% { transform: translateY(-110vh) scale(.4); opacity: 0; }
+    }
+
+    /* ── Header ── */
+    header {
+      text-align: center;
+      margin-bottom: 48px;
+      animation: fadeDown .9s ease both;
+    }
+
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .rose-icon {
+      font-size: 3.8rem;
+      display: block;
+      margin-bottom: 12px;
+      animation: sway 4s ease-in-out infinite;
+    }
+
+    @keyframes sway {
+      0%, 100% { transform: rotate(-5deg) scale(1); }
+      50%       { transform: rotate(5deg) scale(1.08); }
+    }
+
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(2rem, 6vw, 3.2rem);
+      color: var(--rose-deep);
+      line-height: 1.15;
+      letter-spacing: .02em;
+    }
+
+    header p.sub {
+      margin-top: 8px;
+      font-size: 1.05rem;
+      color: var(--ink-soft);
+      letter-spacing: .08em;
+      font-style: italic;
+    }
+
+    /* ── Divider ── */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 32px 0;
+      color: var(--rose-soft);
+      font-size: 1.1rem;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--rose-soft), transparent);
+    }
+
+    /* ── Letter Card ── */
+    .letter-card {
+      background: var(--cream);
+      border: 1px solid #E8CDD2;
+      border-radius: 4px;
+      padding: 52px clamp(24px, 6vw, 64px) 56px;
+      position: relative;
+      box-shadow:
+        0 4px 30px rgba(139,26,43,.08),
+        0 1px 4px rgba(139,26,43,.05),
+        inset 0 0 60px rgba(247,214,220,.15);
+      animation: fadeUp .9s .3s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Decorative corner roses */
+    .letter-card::before,
+    .letter-card::after {
+      content: '🌹';
+      position: absolute;
+      font-size: 1.6rem;
+      opacity: .35;
+    }
+
+    .letter-card::before { top: 16px; left: 20px; }
+    .letter-card::after  { bottom: 16px; right: 20px; transform: scaleX(-1); }
+
+    /* Paper lines */
+    .lines {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      border-radius: 4px;
+    }
+
+    .lines::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 36px,
+        rgba(200,160,170,.12) 36px,
+        rgba(200,160,170,.12) 37px
+      );
+    }
+
+    .date {
+      text-align: right;
+      font-style: italic;
+      color: var(--rose-mid);
+      font-size: .95rem;
+      margin-bottom: 28px;
+      letter-spacing: .04em;
+    }
+
+    .greeting {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-style: italic;
+      color: var(--rose-deep);
+      margin-bottom: 24px;
+    }
+
+    .letter-body p {
+      font-size: 1.12rem;
+      line-height: 1.95;
+      color: var(--ink);
+      margin-bottom: 20px;
+      text-align: justify;
+      position: relative;
+      z-index: 1;
+    }
+
+    .letter-body p .em {
+      font-style: italic;
+      color: var(--rose-deep);
+      font-weight: 400;
+    }
+
+    .letter-body p .bold {
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    /* ── Apology list ── */
+    .apology-list {
+      list-style: none;
+      margin: 28px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .apology-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      font-size: 1.08rem;
+      line-height: 1.7;
+      color: var(--ink-soft);
+      padding: 12px 16px;
+      background: rgba(248,225,230,.45);
+      border-left: 3px solid var(--rose-soft);
+      border-radius: 0 4px 4px 0;
+      transition: background .3s, border-color .3s;
+    }
+
+    .apology-list li:hover {
+      background: rgba(248,225,230,.75);
+      border-color: var(--rose-deep);
+    }
+
+    .apology-list li .icon {
+      font-size: 1.1rem;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    /* ── Promise section ── */
+    .promise-box {
+      background: linear-gradient(135deg, rgba(139,26,43,.07), rgba(200,56,77,.04));
+      border: 1px solid rgba(139,26,43,.15);
+      border-radius: 6px;
+      padding: 28px 32px;
+      margin: 32px 0;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .promise-box h3 {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.25rem;
+      color: var(--rose-deep);
+      margin-bottom: 14px;
+    }
+
+    .promise-box p {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--ink-soft);
+      font-style: italic;
+    }
+
+    /* ── Closing ── */
+    .closing {
+      text-align: right;
+      margin-top: 36px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .closing p {
+      font-size: 1rem;
+      color: var(--ink-soft);
+      margin-bottom: 6px;
+    }
+
+    .closing .name {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.6rem;
+      color: var(--rose-deep);
+    }
+
+    .closing .heart-sign {
+      font-size: 1.4rem;
+      display: block;
+      margin-top: 6px;
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50%       { transform: scale(1.25); }
+    }
+
+    /* ── Rose row ── */
+    .rose-row {
+      text-align: center;
+      font-size: 2rem;
+      letter-spacing: .2em;
+      margin: 44px 0 20px;
+      animation: fadeUp .9s .6s ease both;
+    }
+
+    .rose-row span {
+      display: inline-block;
+      animation: sway 3s ease-in-out infinite;
+    }
+
+    .rose-row span:nth-child(2) { animation-delay: .3s; }
+    .rose-row span:nth-child(3) { animation-delay: .6s; }
+    .rose-row span:nth-child(4) { animation-delay: .9s; }
+    .rose-row span:nth-child(5) { animation-delay: 1.2s; }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      font-size: .88rem;
+      color: var(--rose-soft);
+      letter-spacing: .06em;
+      font-style: italic;
+      animation: fadeUp .9s .8s ease both;
+    }
+
+    /* ── Ribbon seal ── */
+    .seal {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 36px auto 0;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--rose-mid), var(--rose-deep));
+      box-shadow: 0 6px 24px rgba(139,26,43,.35);
+      font-size: 2.2rem;
+      animation: fadeUp .9s .7s ease both, spin-in 1.2s .7s ease both;
+    }
+
+    @keyframes spin-in {
+      from { transform: rotate(-180deg) scale(0); }
+      to   { transform: rotate(0deg) scale(1); }
+    }
+
+    /* ── Mobile First — base styles tuned for ~390px screens ── */
+    .page {
+      padding: 32px 14px 60px;
+    }
+
+    header {
+      margin-bottom: 28px;
+    }
+
+    .rose-icon {
+      font-size: 3rem;
+      margin-bottom: 8px;
+    }
+
+    header h1 {
+      font-size: clamp(1.5rem, 7vw, 3.2rem);
+    }
+
+    header p.sub {
+      font-size: .88rem;
+      letter-spacing: .05em;
+    }
+
+    .divider {
+      margin: 20px 0;
+      font-size: .95rem;
+    }
+
+    .letter-card {
+      padding: 28px 16px 36px;
+      border-radius: 6px;
+    }
+
+    .letter-card::before,
+    .letter-card::after {
+      font-size: 1.2rem;
+    }
+
+    .date {
+      font-size: .82rem;
+      margin-bottom: 18px;
+    }
+
+    .greeting {
+      font-size: 1.2rem;
+      margin-bottom: 16px;
+    }
+
+    .letter-body p {
+      font-size: .97rem;
+      line-height: 1.85;
+      margin-bottom: 14px;
+      text-align: left;
+    }
+
+    .apology-list {
+      gap: 10px;
+      margin: 18px 0;
+    }
+
+    .apology-list li {
+      font-size: .95rem;
+      line-height: 1.65;
+      padding: 10px 12px;
+      gap: 10px;
+    }
+
+    .apology-list li .icon {
+      font-size: 1rem;
+    }
+
+    .promise-box {
+      padding: 18px 16px;
+      margin: 20px 0;
+      border-radius: 6px;
+    }
+
+    .promise-box h3 {
+      font-size: 1.05rem;
+      margin-bottom: 10px;
+    }
+
+    .promise-box p {
+      font-size: .93rem;
+      line-height: 1.75;
+    }
+
+    .closing {
+      margin-top: 24px;
+    }
+
+    .closing p {
+      font-size: .9rem;
+    }
+
+    .closing .name {
+      font-size: 1.3rem;
+    }
+
+    .closing .heart-sign {
+      font-size: 1.2rem;
+    }
+
+    .seal {
+      width: 64px;
+      height: 64px;
+      font-size: 1.8rem;
+      margin-top: 24px;
+    }
+
+    .rose-row {
+      font-size: 1.5rem;
+      letter-spacing: .15em;
+      margin: 28px 0 14px;
+    }
+
+    footer {
+      font-size: .78rem;
+      letter-spacing: .04em;
+      padding: 0 8px;
+    }
+
+    /* Slightly reduce petals on mobile for performance */
+    @media (max-width: 430px) {
+      .heart-float { font-size: .9rem !important; }
+    }
+
+    /* Tablet and up — restore larger sizing */
+    @media (min-width: 600px) {
+      .page { padding: 50px 24px 80px; }
+      header { margin-bottom: 44px; }
+      .rose-icon { font-size: 3.8rem; }
+      .letter-card { padding: 48px clamp(28px, 5vw, 60px) 52px; }
+      .greeting { font-size: 1.5rem; }
+      .letter-body p { font-size: 1.1rem; text-align: justify; }
+      .apology-list li { font-size: 1.05rem; padding: 12px 16px; }
+      .promise-box { padding: 26px 30px; }
+      .promise-box h3 { font-size: 1.2rem; }
+      .seal { width: 80px; height: 80px; font-size: 2.2rem; }
+      .rose-row { font-size: 2rem; }
+      footer { font-size: .88rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Falling petals -->
+<div class="petal-layer" id="petals"></div>
+<!-- Floating hearts -->
+<div class="hearts-bg" id="hearts"></div>
+
+<div class="page">
+
+  <!-- Header -->
+  <header>
+    <span class="rose-icon">🌹</span>
+    <h1>Surat Permintaan Maaf<br><em>Dari Hatiku, Untukmu</em></h1>
+    <p class="sub">— dengan segenap cinta dan ketulusan —</p>
+  </header>
+
+  <!-- Decorative divider -->
+  <div class="divider">🌸 &nbsp; ♡ &nbsp; 🌸</div>
+
+  <!-- Letter -->
+  <div class="letter-card">
+    <div class="lines"></div>
+
+    <div class="date">
+      <script>
+        const opts = { weekday:'long', year:'numeric', month:'long', day:'numeric' };
+        document.write(new Date().toLocaleDateString('id-ID', opts));
+      </script>
+    </div>
+
+    <p class="greeting">Sayangku yang tercinta,</p>
+
+    <div class="letter-body">
+
+      <p>
+        Aku tahu kata-kata tidak akan pernah cukup untuk mengungkapkan betapa
+        <span class="em">menyesalnya aku</span> atas semua yang telah terjadi.
+        Namun izinkanlah aku, dengan segala keberanian dan ketulusan yang kumiliki,
+        untuk menulis surat ini — surat yang lahir dari sudut terdalam hatiku.
+      </p>
+
+      <p>
+        Hari spesialmu telah berlalu, dan aku tidak bisa merayakannya bersamamu
+        seperti yang seharusnya. <span class="em">Maafkan aku, sayang.</span>
+        Bukan karena kamu tidak berharga — justru sebaliknya.
+        Kamu adalah hal paling berharga dalam hidupku, dan aku gagal menunjukkannya
+        di momen yang paling berarti bagimu.
+      </p>
+
+      <p>
+        Aku meminta maaf atas semua kesalahan yang pernah kulakukan —
+        yang besar maupun yang kecil, yang disengaja maupun tidak.
+        Berikut beberapa hal yang ingin aku akui dari lubuk hatiku:
+      </p>
+
+      <ul class="apology-list">
+        <li>
+          <span class="icon">🌹</span>
+          <span>Maaf karena aku belum bisa merayakan hari spesialmu dengan cara yang pantas, belum bisa ngasih yang berharga buatmu sayang. Maafkan aku juga telat ngasih hadiah yang ga seberapa ini. Maaf ya sayang.</span>
+        </li>
+        <li>
+          <span class="icon">💌</span>
+          <span>Maaf atas semua momen di mana aku kurang hadir baik secara fisik maupun emosional, tapi aku pasti bakal berusaha agar selalu hadir buatmu sayang, menemani di setiap saat ayang membutuhkanku — aku selalu siap. Jadi aku minta ayang buat selalu berpikir bahwa aku selalu ada buat ayang. Ayang berhak atas sepenuh perhatianku.</span>
+        </li>
+        <li>
+          <span class="icon">🕊️</span>
+          <span>Maaf atas kata-kata yang mungkin pernah menyakitimu, entah sengaja atau tidak. Lidahku seharusnya hanya mengucapkan hal-hal yang membuatmu tersenyum.</span>
+        </li>
+        <li>
+          <span class="icon">🌷</span>
+          <span>Maaf karena aku terkadang mengabaikan perasaanmu dan terlalu asyik dengan urusanku sendiri. Kamu selalu menjadi prioritasku, dan aku seharusnya membuktikannya.</span>
+        </li>
+        <li>
+          <span class="icon">✨</span>
+          <span>Maaf atas semua janji kecil yang belum sempat ku tepati. Setiap janji yang kuucapkan kepadamu adalah serius, dan aku akan berusaha menepatinya satu per satu.</span>
+        </li>
+      </ul>
+
+      <p>
+        Meski hari spesialmu belum bisa kita rayakan bersama sebagaimana mestinya,
+        percayalah bahwa <span class="em">setiap hari bersamamu adalah perayaan bagiku.</span>
+        Kamu adalah hadiah terbesar yang pernah diberikan kehidupan kepadaku.
+      </p>
+
+      <div class="promise-box">
+        <h3>💍 Janjiku Untukmu</h3>
+        <p>
+          Aku berjanji akan selalu berusaha menjadi lebih baik — bukan karena sempurna,
+          tapi karena kamu berhak mendapatkan seseorang yang terus tumbuh demi kebahagiaanmu.
+          Kita akan merayakan hari spesialmu dengan cara yang jauh lebih indah dari yang bisa
+          kita bayangkan sekarang. <strong>Aku mencintaimu, kemarin, hari ini, dan selamanya.</strong>
+        </p>
+      </div>
+
+      <p>
+        Maafkan semua khilafku, sayang. Hati ini hanya milikmu, dan selalu akan begitu.
+        Kamu adalah alasan aku ingin menjadi pribadi yang lebih baik setiap harinya.
+        Terima kasih sudah tetap mau menerima aku apa adanya, dengan segala kekuranganku.
+      </p>
+
+    </div>
+
+    <div class="closing">
+      <p>Dengan cinta yang tak terhingga,</p>
+      <span class="name">Milikmu Selamanya ♡</span>
+      <span class="heart-sign">❤️</span>
+    </div>
+  </div>
+
+  <!-- Seal -->
+  <div class="seal">🌹</div>
+
+  <!-- Rose decoration -->
+  <div class="rose-row">
+    <span>🌹</span><span>🌸</span><span>❤️</span><span>🌸</span><span>🌹</span>
+  </div>
+
+  <footer>
+    Ditulis dengan air mata dan cinta yang tulus &nbsp;·&nbsp; Hanya untukmu
+  </footer>
+
+</div>
+
+<script>
+  /* ── Generate petals ── */
+  const colors = ['#E8899A','#C0384D','#F7B6C2','#D4607A','#F2C4CC'];
+  const petalLayer = document.getElementById('petals');
+  const isMobile = window.innerWidth < 600;
+  const petalCount = isMobile ? 14 : 28;
+
+  for (let i = 0; i < petalCount; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    const size = 12 + Math.random() * 14;
+    p.style.cssText = `
+      left: ${Math.random() * 100}%;
+      width: ${size}px;
+      height: ${size * 1.2}px;
+      background: ${colors[Math.floor(Math.random() * colors.length)]};
+      animation-duration: ${6 + Math.random() * 8}s;
+      animation-delay: ${Math.random() * 12}s;
+      transform: rotate(${Math.random() * 360}deg);
+      border-radius: ${Math.random() > .5 ? '80% 0 80% 0' : '0 80% 0 80%'};
+      opacity: ${0.4 + Math.random() * 0.4};
+    `;
+    petalLayer.appendChild(p);
+  }
+
+  /* ── Generate floating hearts ── */
+  const heartsLayer = document.getElementById('hearts');
+  const heartEmojis = ['❤️','🌹','💕','💗','💖','🌸'];
+  const heartCount = isMobile ? 10 : 18;
+
+  for (let i = 0; i < heartCount; i++) {
+    const h = document.createElement('div');
+    h.className = 'heart-float';
+    h.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+    h.style.cssText = `
+      left: ${Math.random() * 95}%;
+      bottom: -40px;
+      font-size: ${0.8 + Math.random() * 1.2}rem;
+      animation-duration: ${8 + Math.random() * 10}s;
+      animation-delay: ${Math.random() * 15}s;
+    `;
+    heartsLayer.appendChild(h);
+  }
+</script>
+</body>
+</html>
